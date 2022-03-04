@@ -10,4 +10,4 @@ Requirements
 * You must have Chrome installed.
 * You must have Python3 installed.
 * You must have Selenium installed.
-* You must have Chromedriver installed that matches your version of Chrome. See <https://chromedriver.chromium.org/downloads>.
+* You must have Chromedriver installed that matches your version of Chrome. See <https://chromedriver.chromium.org/downloads>
