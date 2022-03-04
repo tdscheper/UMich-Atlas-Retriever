@@ -10,7 +10,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
-from SpecialPrint import horizontal_align_print
+from specialprint import horizontal_align_print
 
 
 # Change any of these if you want
