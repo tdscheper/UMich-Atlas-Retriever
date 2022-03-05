@@ -167,8 +167,8 @@ class AtlasRetriever:
             filename = input('Filename: ')
             self.print_newline_if_redirected()
             if os.path.exists(filename):
-                break
-        return filename
+                return filename
+            print('File does not exist.')
     
     def retrieve_sort_method(self):
         print('Sorting Methods')
