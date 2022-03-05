@@ -90,8 +90,7 @@ class Course:
         self.grade = grade if grade != 'N/A' else None
         # Take off the % sign at the end. Use 101 if N/A
         self.workload = int(workload[:-1]) if workload[-2].isdigit() else 101
-        self.sort_key = sort_method
-        self.lt_func = self.make_lt_func()
+        self.lt_func = self.make_lt_func(sort_method)
     
     def __str__(self):
         return self.display
@@ -99,15 +98,15 @@ class Course:
     def __lt__(self, other):
         return self.lt_func(self, other)
     
-    def make_lt_func(self):
+    def make_lt_func(self, key):
         foo = None
 
-        if self.sort_key == SortMethod.NAME:
+        if key == SortMethod.NAME:
             def bar(lhs, rhs):
                 return lhs.name < rhs.name
             foo = bar
         
-        elif self.sort_key == SortMethod.WORKLOAD:
+        elif key == SortMethod.WORKLOAD:
             def bar(lhs, rhs):
                 if not lhs.workload and not rhs.workload:
                     return lhs.id < rhs.id
@@ -118,7 +117,7 @@ class Course:
                 return lhs.workload < rhs.workload
             foo = bar
         
-        elif self.sort_key == SortMethod.GRADE:
+        elif key == SortMethod.GRADE:
             def bar(lhs, rhs):
                 if not lhs.grade and not rhs.grade:
                     return lhs.id < rhs.id
@@ -129,7 +128,7 @@ class Course:
                 return GRADES_TO_VALS[lhs.grade] < GRADES_TO_VALS[rhs.grade]
             foo = bar
         
-        elif self.sort_key == SortMethod.TITLE:
+        elif key == SortMethod.TITLE:
             def bar(lhs, rhs):
                 if not lhs.title and not rhs.title:
                     return lhs.id < rhs.id
@@ -151,13 +150,14 @@ class Course:
 class AtlasRetriever:
     def __init__(self, mode):
         self.redirected = stat.S_ISREG(mode)
-        filename = FILE_PATH if FILE_PATH else self.retrieve_filename()
-        self.filename = filename[:-4]  # Chop off the .txt
+        self.filename = FILE_PATH if FILE_PATH else self.retrieve_filename()
+        self.filename = self.filename[:-4]  # Chop off the .txt
         self.sort_key = SortMethod(
             SORT_METHOD if SORT_METHOD else self.retrieve_sort_method()
         )
         self.driver = webdriver.Chrome(options=self.chrome_options())
     
+    # Useful for when input is taken from a file instead of typed by user
     def print_newline_if_redirected(self):
         if self.redirected:
             print()
