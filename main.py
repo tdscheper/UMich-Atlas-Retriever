@@ -228,10 +228,8 @@ class AtlasRetriever:
         return title, grade, workload
     
     def shorten_course_title(self, title):
-        if len(title) <= DISPLAY_LENGTHS['title']:
-            return title
         diff = len(title) - DISPLAY_LENGTHS['title']
-        return title[:len(title) - diff - 3] + '...'
+        return title if diff < 1 else title[:len(title) - diff - 3] + '...'
     
     def make_courses(self):
         courses = []  # Heap

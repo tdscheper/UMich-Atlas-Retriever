@@ -1,23 +1,24 @@
 import sys
 
 
+# mode is one of 'left', 'right', 'center'
 def horizontal_align_print(
     s, width, mode='left', offsetChar=' ', end='\n', os=sys.stdout
     ):
     p = _print_to_file_func(os)
 
-    if mode == 'left':
+    if mode[0] == 'l':  # left
         offset = width - len(s)
         p(s, end='')
         for _ in range(offset):
             p(offsetChar, end='')
         p('', end=end)
-    elif mode == 'right':
+    elif mode[0] == 'r':  # right
         offset = width - len(s)
         for _ in range(offset):
             p(offsetChar, end='')
         p(s, end=end)
-    else: # center
+    else:  # center
         sIsEven = len(s) % 2 == 0
         widthIsEven = width % 2 == 0
         if sIsEven != widthIsEven:
